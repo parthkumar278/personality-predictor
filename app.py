@@ -12,7 +12,24 @@ def clean_text(text):
     text = re.sub(r'[^a-zA-Z\s]', '', text)
     text = text.lower().strip()
     return text
-
+descriptions = {
+    "INTJ": "The Architect — strategic, independent, and always 10 steps ahead.",
+    "INTP": "The Thinker — loves ideas, logic, and solving complex puzzles.",
+    "INFJ": "The Counselor — deeply empathetic, visionary, and quietly powerful.",
+    "INFP": "The Mediator — creative, idealistic, and driven by deep values.",
+    "ISTJ": "The Inspector — reliable, detail-oriented, and incredibly dependable.",
+    "ISTP": "The Craftsman — calm, practical, and great in a crisis.",
+    "ISFJ": "The Protector — warm, caring, and always puts others first.",
+    "ISFP": "The Artist — gentle, creative, and lives fully in the moment.",
+    "ENTJ": "The Commander — bold, ambitious, and born to lead.",
+    "ENTP": "The Debater — clever, curious, and loves a good argument.",
+    "ENFJ": "The Teacher — charismatic, inspiring, and uplifts everyone around them.",
+    "ENFP": "The Champion — enthusiastic, creative, and endlessly optimistic.",
+    "ESTJ": "The Supervisor — organized, assertive, and gets things done.",
+    "ESTP": "The Dynamo — energetic, bold, and thrives in the fast lane.",
+    "ESFJ": "The Caregiver — sociable, warm, and loves taking care of others.",
+    "ESFP": "The Performer — spontaneous, fun-loving, and lights up any room.",
+}
 @st.cache_resource
 def load_or_train():
     df = pd.read_csv("https://raw.githubusercontent.com/parthkumar278/personality-predictor/main/mbti_1.csv")
@@ -51,6 +68,7 @@ if st.button("Predict my personality"):
         jp = "J" if models['JP'].predict(vector)[0] == 1 else "P"
         mbti = ie + ns + tf + jp
         st.success(f"Your predicted personality type is: **{mbti}**")
+        st.info(descriptions[mbti])
         st.subheader("Dimension Breakdown")
         col1, col2 = st.columns(2)
         with col1:
